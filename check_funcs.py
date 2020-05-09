@@ -1,7 +1,7 @@
 import re
 import traceback
 import requests
-from testrail_automation import get_funcs
+from TestrailScripts import get_funcs
 from my_secrets import AGOL_NITRO_DEVEXT_HOST_NAME
 
 def check_testrail_for_bad_links_and_items():

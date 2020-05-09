@@ -1,5 +1,5 @@
 import unittest
-import get_funcs
+from TestrailScripts import get_funcs
 from my_secrets import TR_CLIENT_OBJ, TR_PROJECT_ID, AGOL_DBQA_HOST_NAME
 from my_secrets import AUTOMATION_DEVEXT_DBQA_GIS
 from arcgis.gis import Item

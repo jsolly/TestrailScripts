@@ -1,7 +1,7 @@
 import time
 import re
 from urllib.parse import urlparse
-from testrail_automation.testrail import APIError
+from TestrailScripts.testrail import APIError
 import my_secrets as secrets
 
 def get_suites_from_project_id() -> list:
