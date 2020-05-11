@@ -1,5 +1,6 @@
 import unittest
-from TestrailScripts import check_funcs
+from GitHub.TestrailScripts import check_funcs
+
 
 class FirstClass(unittest.TestCase):
 
@@ -15,4 +16,3 @@ class FirstClass(unittest.TestCase):
         url = "https://esri.box.com/s/yhy1o8j99fd2xntpn4zwmfrc4m2zz619"
         result = check_funcs.get_human_readable_response(url)
         self.assertNotEqual(result, 200)
-
