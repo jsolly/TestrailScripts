@@ -44,7 +44,7 @@ def get_test_case_from_id(test_case_id):
 
 def get_links_from_string(string):  # Change to match other ragexes
     url_pattern = re.compile(
-        "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+        "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*(),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
     )
     urls = url_pattern.findall(string)
     return urls
@@ -57,14 +57,10 @@ def get_item_ids_from_string(string):
 
 
 def get_item_from_item_id(item_id):
-
     for GIS in secrets.AGOL_DBQA_ADMINS:
-        try:
-            item = GIS.content.get(item_id)
-            if item:
-                return item
-        except:
-            continue
+        item = GIS.content.get(item_id)
+        if item:
+            return item
 
     return False
 

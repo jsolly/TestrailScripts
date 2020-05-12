@@ -1,5 +1,4 @@
 import re
-import traceback
 import requests
 from GitHub.TestrailScripts import get_funcs
 from other.my_secrets import AGOL_NITRO_DEVEXT_HOST_NAME
@@ -89,6 +88,3 @@ def get_human_readable_response(url):
 
     except requests.exceptions.ConnectionError:
         return f"Server could not be found when attempting to access {url}"
-
-    except Exception:
-        traceback.print_exc()
