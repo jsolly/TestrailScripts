@@ -1,7 +1,7 @@
 import re
 import requests
 from GitHub.TestrailScripts import get_funcs
-from other.my_secrets import AGOL_NITRO_DEVEXT_HOST_NAME
+from other.my_secrets import AGOL_DICT
 
 
 def check_testrail_for_bad_links_and_items():
@@ -35,7 +35,10 @@ def check_testrail_for_bad_links_and_items():
                     dirty_results.append(f"{item_id} this item is inaccessible")
                     continue
 
-                elif get_funcs.get_item_host_name(item) == AGOL_NITRO_DEVEXT_HOST_NAME:
+                elif (
+                    get_funcs.get_item_host_name(item)
+                    == AGOL_DICT["AGOL_NITRO_DEVEXT_HOST_NAME"]
+                ):
                     dirty_results.append(f"{item_id} is a nitro item id")
 
         if dirty_results:

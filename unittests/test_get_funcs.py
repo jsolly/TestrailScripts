@@ -1,7 +1,9 @@
 import unittest
 from GitHub.TestrailScripts import get_funcs
-from other.my_secrets import AUTOMATION_DEVEXT_DBQA_GIS, AGOL_DBQA_DEVEXT_HOST_NAME
+from other.my_secrets import get_automation_devext_dbqa_gis, AGOL_DICT
 from arcgis.gis import Item
+
+AUTOMATION_DEVEXT_DBQA_GIS = get_automation_devext_dbqa_gis()
 
 
 class FirstClass(unittest.TestCase):
@@ -53,4 +55,4 @@ class FirstClass(unittest.TestCase):
             "ec18963f29864b7baf5f5eb236f6a545"
         )
         item_host_name = get_funcs.get_item_host_name(item)
-        self.assertEqual(item_host_name, AGOL_DBQA_DEVEXT_HOST_NAME)
+        self.assertEqual(item_host_name, AGOL_DICT["AGOL_DBQA_DEVEXT_HOST_NAME"])
