@@ -56,7 +56,7 @@ def check_testrail_for_bad_links_and_items():
     return dirty_test_cases
 
 
-def check_string_for_nitro_string(string):
+def check_string_for_nitro_string(string) -> bool:
     nitro_pattern = re.compile("nitro", re.IGNORECASE)
 
     if nitro_pattern.search(string):

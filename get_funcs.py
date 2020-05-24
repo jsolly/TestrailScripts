@@ -26,7 +26,7 @@ def get_test_cases_from_project_id() -> list:
     return cases
 
 
-def get_test_cases_from_suite_id(suite_id):
+def get_test_cases_from_suite_id(suite_id: int) -> list:
     for _ in range(5):
         try:
             test_cases = TR_CLIENT_OBJ.send_get(
@@ -38,7 +38,7 @@ def get_test_cases_from_suite_id(suite_id):
             time.sleep(60)
 
 
-def get_test_case_from_id(test_case_id):
+def get_test_case_from_id(test_case_id: int) -> list:
     for _ in range(5):  # Would be good to capsulize this logic
         try:
             test_case = TR_CLIENT_OBJ.send_get(uri=f"get_case/{test_case_id}")
