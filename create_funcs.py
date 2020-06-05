@@ -140,10 +140,7 @@ def add_results_to_test_plan(client_obj, test_plan_id, results):
 def create_verification_test_plan(
     client_obj, test_plan_id
 ):  # I'm not very proud of all this. Pretty wonky. = /
-    headers = {"Content-Type": "application/json"}
-    test_plan_dict = client_obj.send_get(
-        uri=f"get_plan/{test_plan_id}", headers=headers
-    )
+    test_plan_dict = client_obj.send_get(uri=f"get_plan/{test_plan_id}")
     project_id = test_plan_dict["project_id"]
     new_test_plan = Test_Plan(
         plan_name=test_plan_dict["name"] + " verification after release branch merge",
