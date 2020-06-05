@@ -2,13 +2,15 @@ import time
 import re
 from urllib.parse import urlparse
 from GitHub.TestrailScripts.testrail import APIError
-from other.my_secrets import (
-    TESTRAIL_DICT,
-    get_test_rail_api_obj,
-    get_all_admin_gis_objs,
-)
+from other.my_secrets import MySecrets
 
-TR_CLIENT_OBJ = get_test_rail_api_obj()
+
+TESTRAIL_DICT = MySecrets.TESTRAIL_DICT
+TEST_RAIL_API_OBJ = MySecrets.get_test_rail_api_obj()
+ADMIN_GIS_OBJS = MySecrets.get_admin_gis_objs()
+
+
+TR_CLIENT_OBJ = MySecrets.get_test_rail_api_obj()
 
 
 def get_suites_from_project_id() -> list:
@@ -62,10 +64,9 @@ def get_item_ids_from_string(string):
     return item_ids
 
 
-def get_item_from_item_id(item_id):  # This might be broken!
-    gis_objs = get_all_admin_gis_objs()
+def get_item_from_item_id(item_id):  # todo: implement a closure
 
-    for GIS in gis_objs:
+    for GIS in ADMIN_GIS_OBJS:
         item = GIS.content.get(item_id)
         if item:
             return item
