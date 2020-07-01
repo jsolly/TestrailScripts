@@ -3,14 +3,27 @@ import re
 from urllib.parse import urlparse
 from GitHub.TestrailScripts.testrail import APIError
 from other.my_secrets import MySecrets
+import binpacking
+from GitHub.TestrailScripts import testrail
 
 
 TESTRAIL_DICT = MySecrets.TESTRAIL_DICT
-TEST_RAIL_API_OBJ = MySecrets.get_test_rail_api_obj()
-ADMIN_GIS_OBJS = MySecrets.get_admin_gis_objs()
+TEST_RAIL_API_OBJ = testrail.APIClient(base_url=MySecrets.TESTRAIL_DICT["BASE_URL"])
+TEST_RAIL_API_OBJ.user = MySecrets.TESTRAIL_DICT["USERNAME"]
+TEST_RAIL_API_OBJ.password = MySecrets.TESTRAIL_DICT["PASSWORD"]
+# ADMIN_GIS_OBJS = MySecrets.get_admin_gis_objs()
 
 
-TR_CLIENT_OBJ = MySecrets.get_test_rail_api_obj()
+def get_certification_assignments(suite_dict, bin_num):
+    total_test_cases = sum(suite_dict.values())
+    bins = binpacking.to_constant_bin_number(suite_dict, bin_num)
+
+    print(f"There are a total of {total_test_cases} test cases")
+    for index, employee in enumerate(bins):
+        print(f"\n Bucket {index} has {sum(employee.values())} tests")
+        print(employee)
+
+    return True
 
 
 def get_test_case_from_id(test_case_id: int) -> list:
