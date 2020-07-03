@@ -2,9 +2,16 @@ import unittest
 from GitHub.TestrailScripts import get_funcs
 from other.my_secrets import MySecrets
 
+TESTRAIL_DICT = MySecrets.TESTRAIL_DICT
+
 
 class FirstClass(unittest.TestCase):
     gis_obj = MySecrets.get_agol_gis("DEV_ENV", "DBQA_AUTOMATION")
+
+    def test_get_sections_from_suite_id(self):
+        pie_chart_suite_id = "307"
+        sections = get_funcs.get_sections_from_suite_id(pie_chart_suite_id)
+        self.assertIsInstance(sections, list)
 
     def test_get_certification_assignments(self):
         # 4x cert
@@ -52,16 +59,21 @@ class FirstClass(unittest.TestCase):
 
         self.assertTrue(get_funcs.get_certification_assignments(suite_dict, 5))
 
+    def test_get_test_case_from_id(self):
+        test_case_id = "76247"
+        test_cases = get_funcs.get_test_case_from_id(test_case_id)
+        self.assertIsInstance(test_cases, dict)
+
     def test_get_suites_from_project_id(self):
-        suites = get_funcs.get_suites_from_project_id()
+        suites = get_funcs.get_suites_from_project_id(
+            TESTRAIL_DICT["DASHBOARD_PROJECT_ID"]
+        )
         self.assertIsInstance(suites, list)
+
+    # def test_get_test_cases_from_project_id(project_id) -> list:
+    #     print("TODO")
 
     def test_get_test_cases_from_suite_id(self):
         pie_chart_suite_id = "307"
         test_cases = get_funcs.get_test_cases_from_suite_id(pie_chart_suite_id)
         self.assertIsInstance(test_cases, list)
-
-    def test_get_test_case_from_id(self):
-        test_case_id = "76247"
-        test_cases = get_funcs.get_test_case_from_id(test_case_id)
-        self.assertIsInstance(test_cases, dict)
