@@ -13,9 +13,9 @@ TEST_RAIL_API_OBJ.user = MySecrets.TESTRAIL_DICT["USERNAME"]
 TEST_RAIL_API_OBJ.password = MySecrets.TESTRAIL_DICT["PASSWORD"]
 
 
-def get_sections_from_suite_id(suite_id: int) -> list:
+def get_sections_from_suite_id(project_id, suite_id: int) -> list:
     sections = TEST_RAIL_API_OBJ.send_get(
-        uri=f"get_sections/{TESTRAIL_DICT['DASHBOARD_PROJECT_ID']}&suite_id={suite_id}"
+        uri=f"get_sections/{project_id}&suite_id={suite_id}"
     )
     return sections
 
@@ -37,9 +37,18 @@ def get_test_case_from_id(test_case_id: int) -> list:
         try:
             test_case = TEST_RAIL_API_OBJ.send_get(uri=f"get_case/{test_case_id}")
             return test_case
-        except APIError:
-            print("I got throttled!")
-            time.sleep(60)
+        except APIError as e:
+            if "Rate Limit" in e.args[0]:
+                print(e)
+                time.sleep(60)
+
+        except ConnectionError as e:
+            if "Max retries" in e.args[0]:
+                print(e)
+                time.sleep(60)
+
+        except Exception as e:
+            raise Exception(f"I've never seen this error, {e} before")
 
 
 def get_suites_from_project_id(project_id) -> list:
@@ -50,19 +59,23 @@ def get_test_cases_from_project_id(project_id) -> list:
     cases = []
     suites = get_suites_from_project_id(project_id)
     for suite in suites:
-        test_cases = get_test_cases_from_suite_id(suite["id"])
+        test_cases = get_test_cases_from_suite_id(project_id, suite["id"])
         cases += test_cases
 
     return cases
 
 
-def get_test_cases_from_suite_id(suite_id: int) -> list:
+def get_test_cases_from_suite_id(project_id, suite_id: int) -> list:
     for _ in range(5):
         try:
             test_cases = TEST_RAIL_API_OBJ.send_get(
-                uri=f"get_cases/{TESTRAIL_DICT['DASHBOARD_PROJECT_ID']}&suite_id={suite_id}"
+                uri=f"get_cases/{project_id}&suite_id={suite_id}"
             )
             return test_cases
-        except APIError:
-            print("I got throttled!")
-            time.sleep(60)
+        except APIError as e:
+            if "Rate Limit" in e.args[0]:
+                print(e)
+                time.sleep(60)
+
+            else:
+                raise Exception(f"I've never seen this error, {e} before")

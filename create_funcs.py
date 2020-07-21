@@ -190,10 +190,52 @@ def create_verification_test_plan(
     )
 
 
+def clone_configuration_groups(client_obj):
+    configurations = client_obj.send_get(
+        uri=f"get_configs/{TESTRAIL_DICT['3X_DASHBOARD_PROJECT_ID']}"
+    )
+
+    for configuration in configurations:
+        client_obj.send_post(
+            f"add_config_group/{TESTRAIL_DICT['4X_DASHBOARD_PROJECT_ID']}",
+            {"name": configuration["name"]},
+        )
+
+
+def clone_configurations(client_obj):
+    configuration_groups = client_obj.send_get(
+        uri=f"get_configs/{TESTRAIL_DICT['3X_DASHBOARD_PROJECT_ID']}"
+    )
+
+    configurations_groups_to_add = {
+        "Machine": 45,
+        "Popup content": 46,
+        "QA environments": 47,
+        "Refresh Interval": 48,
+        "Roles": 49,
+        "ArcGIS Enterprise Platform": 40,
+        "ArcGIS Enterprise Security Models": 41,
+    }
+
+    for configuration_group in configuration_groups:
+        config_group_name = configuration_group["name"]
+        try:
+            if configurations_groups_to_add[config_group_name]:
+                for config in configuration_group["configs"]:
+                    client_obj.send_post(
+                        f"add_config/{configurations_groups_to_add[config_group_name]}",
+                        {"name": config["name"]},
+                    )
+        except KeyError:
+            continue
+
+
 if __name__ == "__main__":
     tr_client_obj = APIClient(f"https://{TESTRAIL_DICT['BASE_URL']}")
     tr_client_obj.user = TESTRAIL_DICT["USERNAME"]
     tr_client_obj.password = TESTRAIL_DICT["PASSWORD"]
     tr_client_obj.send_get(uri=f"get_case/154433")
 
-    create_verification_test_plan(tr_client_obj, "5325")
+    # create_verification_test_plan(tr_client_obj, "5325")
+
+    clone_configurations(tr_client_obj)
