@@ -104,8 +104,8 @@ class TestRailClass(unittest.TestCase):
             self.log_string_checks(big_string, section["suite_id"], "suite")
 
     def test_test_case(self):
-        test_cases = [get_funcs.get_test_case_from_id(206506)]
+        test_cases = [get_funcs.get_test_case_from_id(206593)]
         self.test_test_cases_for_bad_links_and_items(test_cases)
 
 
-# 206506
+# 206506 VPN
